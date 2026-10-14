@@ -147,7 +147,10 @@ def quaternions_from_matrices(Rs, out=None):
     out[ind2, 2] = (Rs[ind2, 1, 0] + Rs[ind2, 0, 1]) / s
     out[ind2, 3] = (Rs[ind2, 0, 2] + Rs[ind2, 2, 0]) / s
 
-    ind3 = np.logical_and(np.logical_not(ind1), Rs[..., 1, 1] > Rs[..., 2, 2])
+    ind3 = np.logical_and(
+        np.logical_and(np.logical_not(ind1), np.logical_not(ind2)),
+        Rs[..., 1, 1] > Rs[..., 2, 2],
+    )
     s = 2.0 * np.sqrt(1.0 + Rs[ind3, 1, 1] - Rs[ind3, 0, 0] - Rs[ind3, 2, 2])
     out[ind3, 0] = (Rs[ind3, 0, 2] - Rs[ind3, 2, 0]) / s
     out[ind3, 1] = (Rs[ind3, 1, 0] + Rs[ind3, 0, 1]) / s
