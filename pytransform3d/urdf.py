@@ -200,6 +200,7 @@ class UrdfTransformManager(TransformManager):
             Some URDFs start file names with 'package://' to refer to the ROS
             package in which these files (textures, meshes) are located. This
             variable defines to which path this prefix will be resolved.
+            A trailing path separator is optional.
         """
         robot_name, links, joints = parse_urdf(
             urdf_xml, mesh_path, package_dir, self.strict_check
@@ -378,6 +379,7 @@ def parse_urdf(urdf_xml, mesh_path=None, package_dir=None, strict_check=True):
         Some URDFs start file names with 'package://' to refer to the ROS
         package in which these files (textures, meshes) are located. This
         variable defines to which path this prefix will be resolved.
+        A trailing path separator is optional.
 
     strict_check : bool, optional (default: True)
         Raise a ValueError if the transformation matrix is not numerically
@@ -975,9 +977,11 @@ class Mesh(Geometry):
                 )
             else:
                 assert self.package_dir is not None
-                self.filename = xml.attrib["filename"].replace(
-                    "package://", self.package_dir
-                )
+                self.filename = xml.attrib["filename"]
+                if self.filename.startswith("package://"):
+                    self.filename = os.path.join(
+                        self.package_dir, self.filename[len("package://") :]
+                    )
             if "scale" in xml.attrib:
                 self.scale = np.fromstring(xml.attrib["scale"], sep=" ")
 
