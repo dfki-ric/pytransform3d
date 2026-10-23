@@ -882,6 +882,65 @@ def test_batch_concatenate_quaternions_1d():
     assert_array_almost_equal(q12, pr.concatenate_quaternions(q1, q2))
 
 
+@pytest.mark.parametrize("shape", [(), (3,), (2, 3)])
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+@pytest.mark.parametrize("destination", ["left", "right", "both", "separate"])
+def test_batch_concatenate_quaternions_output_alias(shape, dtype, destination):
+    rng = np.random.default_rng(232)
+    Q1 = pbr.norm_vectors(rng.standard_normal(shape + (4,))).astype(dtype)
+    Q2 = pbr.norm_vectors(rng.standard_normal(shape + (4,))).astype(dtype)
+    if destination == "both":
+        Q2 = Q1
+    original1, original2 = Q1.copy(), Q2.copy()
+    expected = np.array(
+        [
+            pr.concatenate_quaternions(q1, q2)
+            for q1, q2 in zip(Q1.reshape(-1, 4), Q2.reshape(-1, 4))
+        ]
+    ).reshape(shape + (4,))
+    if destination == "separate":
+        out = np.empty_like(Q1)
+        Q1.flags.writeable = Q2.flags.writeable = False
+    else:
+        out = Q2 if destination == "right" else Q1
+
+    result = pbr.batch_concatenate_quaternions(Q1, Q2, out=out)
+
+    assert result is out
+    assert result.dtype == dtype
+    assert_array_almost_equal(result, expected)
+    if destination in ("right", "separate"):
+        np.testing.assert_array_equal(Q1, original1)
+    if destination in ("left", "separate"):
+        np.testing.assert_array_equal(Q2, original2)
+
+
+@pytest.mark.parametrize("operand", [0, 1])
+@pytest.mark.parametrize("view", ["shifted", "reversed"])
+def test_batch_concatenate_quaternions_output_overlapping_view(operand, view):
+    rng = np.random.default_rng(233)
+    storage = pbr.norm_vectors(rng.standard_normal((5, 4)))
+    inputs = [
+        pbr.norm_vectors(rng.standard_normal((4, 4))),
+        pbr.norm_vectors(rng.standard_normal((4, 4))),
+    ]
+    inputs[operand] = storage[:-1]
+    out = storage[1:] if view == "shifted" else storage[:-1, ::-1]
+    expected = np.array(
+        [pr.concatenate_quaternions(q1, q2) for q1, q2 in zip(*inputs)]
+    )
+
+    assert pbr.batch_concatenate_quaternions(*inputs, out=out) is out
+    assert_array_almost_equal(out, expected)
+
+
+@pytest.mark.parametrize("shape", [(0, 4), (2, 0, 4)])
+def test_batch_concatenate_quaternions_empty_inplace(shape):
+    Q = np.empty(shape)
+    assert pbr.batch_concatenate_quaternions(Q, Q, out=Q) is Q
+    assert Q.shape == shape
+
+
 def test_batch_q_conj_1d():
     rng = np.random.default_rng(230)
     q = pr.random_quaternion(rng)

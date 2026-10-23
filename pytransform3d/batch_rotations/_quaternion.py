@@ -87,7 +87,7 @@ def batch_concatenate_quaternions(Q1, Q2, out=None):
         Second batch of quaternions
 
     out : array, shape (..., 4), optional (default: new array)
-        Output array to which we write the result
+        Output array to which we write the result. May overlap either input.
 
     Returns
     -------
@@ -128,12 +128,15 @@ def batch_concatenate_quaternions(Q1, Q2, out=None):
         out = np.empty_like(Q1)
 
     vector_inner_products = np.sum(Q1[..., 1:] * Q2[..., 1:], axis=-1)
-    out[..., 0] = Q1[..., 0] * Q2[..., 0] - vector_inner_products
-    out[..., 1:] = (
+    scalar_part = Q1[..., 0] * Q2[..., 0] - vector_inner_products
+    vector_part = (
         Q1[..., 0, np.newaxis] * Q2[..., 1:]
         + Q2[..., 0, np.newaxis] * Q1[..., 1:]
         + np.cross(Q1[..., 1:], Q2[..., 1:])
     )
+    # Finish reading both inputs before writing to a potentially aliased output.
+    out[..., 0] = scalar_part
+    out[..., 1:] = vector_part
     return out
 
 
