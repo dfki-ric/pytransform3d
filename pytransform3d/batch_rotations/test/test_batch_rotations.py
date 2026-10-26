@@ -1029,3 +1029,100 @@ def test_norm_axis_angles_180_degrees_deterministic_batch():
     a_zero_axis = np.array([0.0, 0.0, 0.0, np.pi])
     res_zero_axis = pbr.norm_axis_angles(a_zero_axis)
     assert_array_almost_equal(res_zero_axis, [1.0, 0.0, 0.0, 0.0])
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+@pytest.mark.parametrize("angle", [2.1, np.pi])
+@pytest.mark.parametrize("shape", [(), (3,), (2, 3)])
+@pytest.mark.parametrize("use_out", [False, True])
+def test_quaternions_from_matrices_largest_diagonal(
+    dtype, angle, shape, use_out
+):
+    # A small Y component must not replace the well-conditioned X branch.
+    dy = 1e-3 if dtype == np.float32 else 1e-6
+    axis = np.array([1.0, dy, 0.0])
+    axis /= np.linalg.norm(axis)
+    x, y, z = axis
+    cross = np.array([[0.0, -z, y], [z, 0.0, -x], [-y, x, 0.0]])
+    R = (
+        np.eye(3)
+        + np.sin(angle) * cross
+        + (1.0 - np.cos(angle)) * (cross @ cross)
+    ).astype(dtype)
+    Rs = np.broadcast_to(R, shape + (3, 3))
+    expected = np.r_[np.cos(angle / 2.0), np.sin(angle / 2.0) * axis]
+    expected = np.broadcast_to(expected, shape + (4,))
+    out = np.full(shape + (4,), np.nan, dtype=dtype) if use_out else None
+
+    actual = pbr.quaternions_from_matrices(Rs, out=out)
+
+    tolerance = 3e-7 if dtype == np.float32 else 5e-15
+    np.testing.assert_allclose(
+        np.linalg.norm(actual, axis=-1), 1.0, rtol=0.0, atol=tolerance
+    )
+    signs = np.where(np.sum(actual * expected, axis=-1) < 0.0, -1.0, 1.0)
+    np.testing.assert_allclose(
+        actual * signs[..., np.newaxis], expected, rtol=0.0, atol=tolerance
+    )
+    if use_out:
+        assert actual is out
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+@pytest.mark.parametrize("use_out", [False, True])
+def test_quaternions_from_matrices_mixed_diagonal_branches(dtype, use_out):
+    # Include each dominant diagonal, ties, negative axes and positive trace.
+    axes = np.array(
+        [
+            [1.0, 0.2, 0.1],
+            [0.1, 1.0, 0.2],
+            [0.2, 0.1, 1.0],
+            [-1.0, -1.0, 0.0],
+            [0.0, 1.0, -1.0],
+            [1.0, 0.0, -1.0],
+            [-1.0, 0.2, 0.1],
+        ]
+    )
+    axes /= np.linalg.norm(axes, axis=-1)[:, np.newaxis]
+    angles = np.array([2.5, 2.5, 2.5, np.pi, np.pi, np.pi, 0.5])
+    expected = np.column_stack(
+        (np.cos(angles / 2.0), np.sin(angles / 2.0)[:, np.newaxis] * axes)
+    )
+    Rs = []
+    for axis, angle in zip(axes, angles):
+        x, y, z = axis
+        cross = np.array([[0.0, -z, y], [z, 0.0, -x], [-y, x, 0.0]])
+        Rs.append(
+            np.eye(3)
+            + np.sin(angle) * cross
+            + (1.0 - np.cos(angle)) * (cross @ cross)
+        )
+    Rs = np.asarray(Rs, dtype=dtype)
+    out = np.full(expected.shape, np.nan, dtype=dtype) if use_out else None
+
+    actual = pbr.quaternions_from_matrices(Rs, out=out)
+
+    tolerance = 3e-7 if dtype == np.float32 else 5e-15
+    np.testing.assert_allclose(
+        np.linalg.norm(actual, axis=-1), 1.0, rtol=0.0, atol=tolerance
+    )
+    signs = np.where(np.sum(actual * expected, axis=-1) < 0.0, -1.0, 1.0)
+    np.testing.assert_allclose(
+        actual * signs[..., np.newaxis], expected, rtol=0.0, atol=tolerance
+    )
+    if use_out:
+        assert actual is out
+
+
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+@pytest.mark.parametrize("shape", [(0,), (2, 0)])
+@pytest.mark.parametrize("use_out", [False, True])
+def test_quaternions_from_matrices_empty_batch(dtype, shape, use_out):
+    Rs = np.empty(shape + (3, 3), dtype=dtype)
+    out = np.empty(shape + (4,), dtype=dtype) if use_out else None
+
+    actual = pbr.quaternions_from_matrices(Rs, out=out)
+
+    assert actual.shape == shape + (4,)
+    if use_out:
+        assert actual is out
