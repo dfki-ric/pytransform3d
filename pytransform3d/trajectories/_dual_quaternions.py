@@ -142,14 +142,14 @@ def dual_quaternions_power(dqs, ts):
         Unit dual quaternions to represent transform:
         (pw, px, py, pz, qw, qx, qy, qz)
 
-    t : array-like, shape (...)
+    ts : array-like, shape (...)
         Exponent
 
     Returns
     -------
     dq_ts : array, shape (..., 8)
         Unit dual quaternions to represent transform:
-        (pw, px, py, pz, qw, qx, qy, qz) ** t
+        (pw, px, py, pz, qw, qx, qy, qz) ** ts
 
     See Also
     --------
@@ -169,12 +169,12 @@ def dual_quaternions_sclerp(starts, ends, ts):
         Unit dual quaternion to represent start poses:
         (pw, px, py, pz, qw, qx, qy, qz)
 
-    end : array-like, shape (..., 8)
+    ends : array-like, shape (..., 8)
         Unit dual quaternion to represent end poses:
         (pw, px, py, pz, qw, qx, qy, qz)
 
     ts : array-like, shape (...)
-        Positions between starts and goals
+        Positions between starts and ends
 
     Returns
     -------

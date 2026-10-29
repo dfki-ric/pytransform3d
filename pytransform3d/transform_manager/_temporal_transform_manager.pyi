@@ -68,5 +68,5 @@ class TemporalTransformManager(TransformGraphBase):
         self,
         from_frame: Hashable,
         to_frame: Hashable,
-        query_time: Union[float, npt.ArrayLike],
+        time: Union[float, npt.ArrayLike],
     ) -> np.ndarray: ...
