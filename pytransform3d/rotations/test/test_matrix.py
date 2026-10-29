@@ -97,14 +97,18 @@ def test_matrix_requires_renormalization():
     R[1, 0] += 1e-3
     assert pr.matrix_requires_renormalization(R)
 
+    R = np.eye(3)
+    R[0, 0] += 1e-6
+    assert pr.matrix_requires_renormalization(R)
+
     rng = np.random.default_rng(39232)
     R_total = np.eye(3)
     for _ in range(10):
         e = pr.random_vector(rng, 3)
         R = pr.active_matrix_from_extrinsic_roll_pitch_yaw(e)
-        assert not pr.matrix_requires_renormalization(R, tolerance=1e-16)
+        assert not pr.matrix_requires_renormalization(R)
         R_total = np.dot(R, R_total)
-    assert pr.matrix_requires_renormalization(R_total, tolerance=1e-16)
+    assert not pr.matrix_requires_renormalization(R_total)
 
 
 def test_norm_rotation_matrix():
