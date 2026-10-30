@@ -197,7 +197,7 @@ The library is distributed under the
 ## Citation
 
 If you use pytransform3d for a scientific publication, I would appreciate
-citation of the following paper:
+citation of one of the following papers:
 
 Fabisch, A. (2019). pytransform3d: 3D Transformations for Python.
 Journal of Open Source Software, 4(33), 1159,
@@ -217,5 +217,26 @@ Bibtex entry:
   author = {Alexander Fabisch},
   title = {pytransform3d: 3D Transformations for Python},
   journal = {Journal of Open Source Software}
+}
+```
+
+Fabisch, A., Popescu, M. (2026). New features of pytransform3d for robotics
+research: transformation graphs, uncertainty, and 3D visualization in Python.
+Frontiers in Robotics and AI 13:1860457, DOI: 10.3389/frobt.2026.1860457
+
+Bibtex entry:
+
+```bibtex
+@article{Fabisch2026,
+  author={Alexander Fabisch and Mihaela Popescu},
+  title={New features of pytransform3d for robotics research:
+         transformation graphs, uncertainty, and {3D} visualization
+         in {Python}},
+  journal={Frontiers in Robotics and AI},
+  volume={13},
+  year={2026},
+  url={https://www.frontiersin.org/journals/robotics-and-ai/articles/10.3389/frobt.2026.1860457},
+  doi={10.3389/frobt.2026.1860457},
+  issn={2296-9144}
 }
 ```

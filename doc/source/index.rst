@@ -62,8 +62,13 @@ Citation
 --------
 
 If you use pytransform3d for a scientific publication, I would appreciate
-citation of the following paper:
+citation of one of the following papers:
 
 Fabisch, A. (2019). pytransform3d: 3D Transformations for Python.
 Journal of Open Source Software, 4(33), 1159,
 https://doi.org/10.21105/joss.01159
+
+Fabisch, A., Popescu, M. (2026). New features of pytransform3d for robotics
+research: transformation graphs, uncertainty, and 3D visualization in Python.
+Frontiers in Robotics and AI 13:1860457,
+https://doi.org/10.3389/frobt.2026.1860457
