@@ -7,6 +7,7 @@ except ImportError:
 import json
 import os
 import warnings
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -1100,6 +1101,44 @@ def test_plot_mesh_smoke_with_package_dir():
     tm = UrdfTransformManager()
     tm.load_urdf(urdf, package_dir="./")
     tm.plot_visuals("cone")
+
+
+@pytest.mark.parametrize("absolute", [False, True])
+@pytest.mark.parametrize("trailing_separator", [False, True])
+@pytest.mark.parametrize("package_uri", [False, True])
+def test_mesh_package_dir(
+    tmp_path, monkeypatch, absolute, trailing_separator, package_uri
+):
+    mesh_contents = (
+        Path(__file__).resolve().parents[2] / "test/test_data/cone.stl"
+    ).read_bytes()
+    mesh_file = tmp_path / "packages/robot/meshes/cone.stl"
+    mesh_file.parent.mkdir(parents=True)
+    mesh_file.write_bytes(mesh_contents)
+    monkeypatch.chdir(tmp_path)
+
+    package_dir = str(tmp_path / "packages") if absolute else "packages"
+    if trailing_separator:
+        package_dir += os.sep
+    filename = (
+        "package://robot/meshes/cone.stl" if package_uri else str(mesh_file)
+    )
+    urdf = """
+    <robot name="robot">
+        <link name="cone">
+            <visual><geometry><mesh filename="%s"/></geometry></visual>
+            <collision><geometry><mesh filename="%s"/></geometry></collision>
+        </link>
+    </robot>
+    """ % (
+        filename,
+        filename,
+    )
+    tm = UrdfTransformManager()
+    tm.load_urdf(urdf, package_dir=package_dir)
+
+    for mesh in tm.visuals + tm.collision_objects:
+        assert Path(mesh.filename).read_bytes() == mesh_contents
 
 
 def test_load_inertial_info():
