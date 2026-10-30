@@ -980,7 +980,8 @@ class Mesh(Geometry):
                 self.filename = xml.attrib["filename"]
                 if self.filename.startswith("package://"):
                     self.filename = os.path.join(
-                        self.package_dir, self.filename[len("package://") :]
+                        self.package_dir,
+                        self.filename.partition("package://")[2],
                     )
             if "scale" in xml.attrib:
                 self.scale = np.fromstring(xml.attrib["scale"], sep=" ")
