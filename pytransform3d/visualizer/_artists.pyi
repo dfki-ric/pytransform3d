@@ -36,8 +36,8 @@ class PointCollection3D(Artist):
 class Vector3D(Artist):
     def __init__(
         self,
-        start: npt.ArrayLike,
-        direction: npt.ArrayLike,
+        start: npt.ArrayLike = ...,
+        direction: npt.ArrayLike = ...,
         c: Union[None, npt.ArrayLike] = ...,
     ): ...
     def set_data(
@@ -188,10 +188,10 @@ class Camera(Artist):
     ): ...
     def set_data(
         self,
-        M: Union[None, npt.ArrayLike],
-        cam2world: Union[None, npt.ArrayLike],
-        virtual_image_distance: Union[None, float],
-        sensor_size: Union[None, npt.ArrayLike],
+        M: Union[None, npt.ArrayLike] = ...,
+        cam2world: Union[None, npt.ArrayLike] = ...,
+        virtual_image_distance: Union[None, float] = ...,
+        sensor_size: Union[None, npt.ArrayLike] = ...,
     ): ...
     @property
     def geometries(self) -> List[o3d.geometry.Geometry3D]: ...
