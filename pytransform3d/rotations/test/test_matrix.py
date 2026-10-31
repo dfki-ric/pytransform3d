@@ -100,11 +100,27 @@ def test_matrix_requires_renormalization():
     rng = np.random.default_rng(39232)
     R_total = np.eye(3)
     for _ in range(10):
-        e = pr.random_vector(rng, 3)
-        R = pr.active_matrix_from_extrinsic_roll_pitch_yaw(e)
-        assert not pr.matrix_requires_renormalization(R, tolerance=1e-16)
+        R = pr.random_matrix(rng)
+        assert not pr.matrix_requires_renormalization(R)
         R_total = np.dot(R, R_total)
-    assert pr.matrix_requires_renormalization(R_total, tolerance=1e-16)
+    assert not pr.matrix_requires_renormalization(R_total)
+
+    R_total[0] *= 1.001
+    assert pr.matrix_requires_renormalization(R_total)
+
+
+@pytest.mark.parametrize("tolerance", [1e-6, 1e-8])
+@pytest.mark.parametrize("axis", [0, 1, 2])
+@pytest.mark.parametrize(
+    "error_factor, required",
+    [(-2.0, True), (-0.5, False), (0.5, False), (2.0, True)],
+)
+def test_matrix_requires_renormalization_diagonal_tolerance(
+    tolerance, axis, error_factor, required
+):
+    R = np.eye(3)
+    R[axis, axis] = np.sqrt(1.0 + error_factor * tolerance)
+    assert pr.matrix_requires_renormalization(R, tolerance) == required
 
 
 def test_norm_rotation_matrix():
