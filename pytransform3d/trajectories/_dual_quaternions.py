@@ -32,6 +32,7 @@ def batch_dq_conj(dqs):
     dq_conjugates : array-like, shape (..., 8)
         Conjugates of dual quaternions: (pw, -px, -py, -pz, -qw, qx, qy, qz)
     """
+    dqs = np.asarray(dqs)
     out = np.empty_like(dqs)
     out[..., 0] = dqs[..., 0]
     out[..., 1:5] = -dqs[..., 1:5]
@@ -62,6 +63,7 @@ def batch_dq_q_conj(dqs):
     pytransform3d.transformations.dq_q_conj
         Quaternion conjugate of dual quaternions.
     """
+    dqs = np.asarray(dqs)
     out = np.empty_like(dqs)
     out[..., 0] = dqs[..., 0]
     out[..., 1:4] = -dqs[..., 1:4]
@@ -267,6 +269,7 @@ def screw_parameters_from_dual_quaternions(dqs):
     pytransform3d.transformations.screw_parameters_from_dual_quaternion :
         Compute screw parameters from dual quaternion.
     """
+    dqs = np.asarray(dqs)
     reals = dqs[..., :4]
     duals = dqs[..., 4:]
 
