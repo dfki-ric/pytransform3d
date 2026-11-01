@@ -34,6 +34,11 @@ def test_check_matrix():
         pr.check_matrix(R, strict_check=False)
         assert len(w) == 1
 
+    R = np.eye(3)
+    R[0, 0] += 1e-6
+    with pytest.raises(ValueError, match="inversion by transposition"):
+        pr.check_matrix(R)
+
     R = np.array([[1, 0, 1e-16], [0, 1, 0], [0, 0, 1]])
     R2 = pr.check_matrix(R)
     assert_array_equal(R, R2)

@@ -62,7 +62,7 @@ def check_matrix(R, tolerance=1e-6, strict_check=True):
             "array-like object with shape %s" % (R.shape,)
         )
     RRT = np.dot(R, R.T)
-    if not np.allclose(RRT, np.eye(3), atol=tolerance):
+    if not np.allclose(RRT, np.eye(3), atol=tolerance, rtol=0.0):
         error_msg = (
             "Expected rotation matrix, but it failed the test "
             "for inversion by transposition. np.dot(R, R.T) "
