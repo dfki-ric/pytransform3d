@@ -181,7 +181,7 @@ def dual_quaternions_from_screw_parameters(qs, s_axis, hs, thetas):
     """
     h_is_not_inf_mask = ~np.isinf(hs)
     mod_thetas = np.where(h_is_not_inf_mask, thetas, 0.0)
-    ds = np.copy(thetas)
+    ds = np.array(thetas, dtype=np.result_type(thetas, float))
     ds[h_is_not_inf_mask] *= hs[h_is_not_inf_mask]
 
     moments = np.cross(qs, s_axis)
