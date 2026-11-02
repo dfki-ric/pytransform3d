@@ -260,7 +260,7 @@ def assert_unit_dual_quaternion_equal(dq1, dq2, *args, **kwargs):
     try:
         assert_array_almost_equal(dq1, dq2, *args, **kwargs)
     except AssertionError:
-        assert_array_almost_equal(dq1, -dq2, *args, **kwargs)
+        assert_array_almost_equal(dq1, -np.asarray(dq2), *args, **kwargs)
 
 
 def dual_quaternion_double(dq):
