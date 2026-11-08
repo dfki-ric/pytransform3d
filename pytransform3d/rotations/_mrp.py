@@ -6,6 +6,7 @@ from numpy.testing import assert_array_almost_equal
 from ._angle import norm_angle
 from ._axis_angle import mrp_from_axis_angle
 from ._constants import two_pi, eps
+from ._quaternion import q_prod_vector
 
 
 def check_mrp(mrp):
@@ -202,10 +203,8 @@ def concatenate_mrp(mrp1, mrp2):
 def mrp_prod_vector(mrp, v):
     r"""Apply rotation represented by MRPs to a vector.
 
-    To apply the rotation defined by modified Rodrigues parameters
-    :math:`\boldsymbol{\psi} \in \mathbb{R}^3` to a vector
-    :math:`\boldsymbol{v} \in \mathbb{R}^3`, we left-concatenate the original
-    MRPs and then right-concatenate its inverted (negative) version.
+    We convert the modified Rodrigues parameters to a unit quaternion and
+    apply the rotation to the vector.
 
     Parameters
     ----------
@@ -222,11 +221,11 @@ def mrp_prod_vector(mrp, v):
 
     See Also
     --------
-    concatenate_mrp : Concatenates MRPs.
+    quaternion_from_mrp : Convert MRPs to a unit quaternion.
     q_prod_vector : The same operation with a quaternion.
     """
-    mrp = check_mrp(mrp)
-    return concatenate_mrp(concatenate_mrp(mrp, v), -mrp)
+    mrp = np.asarray(mrp, dtype=float)
+    return q_prod_vector(quaternion_from_mrp(mrp), check_mrp(v))
 
 
 def quaternion_from_mrp(mrp):

@@ -90,6 +90,21 @@ def test_mrp_prod_vector():
         assert_array_almost_equal(v_mrp, v_q)
 
 
+@pytest.mark.parametrize(
+    "mrp, v", [([1, 0, 0], [1, 0, 0]), ([0, 0.5, 0], [0, 2, 0])]
+)
+def test_mrp_prod_vector_along_axis(mrp, v):
+    assert_array_almost_equal(v, pr.mrp_prod_vector(mrp, v))
+
+
+def test_mrp_prod_vector_integer_mrp():
+    mrp = np.array([12, 0, 0], dtype=np.int8)
+    v = [0.0, 1.0, 0.0]
+    assert_array_almost_equal(
+        pr.mrp_prod_vector(mrp.astype(float), v), pr.mrp_prod_vector(mrp, v)
+    )
+
+
 def test_mrp_quat_conversions():
     rng = np.random.default_rng(22)
 
