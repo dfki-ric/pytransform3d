@@ -266,9 +266,8 @@ def test_quaternion_slerp_antipodal_default_path():
 
     assert_array_almost_equal(pr.quaternion_slerp(q, neg_q, 0.0), q)
     # -end and end describe the same rotation.
-    assert abs(np.dot(pr.quaternion_slerp(q, neg_q, 1.0), neg_q)) == pytest.approx(
-        1.0
-    )
+    end_at_t1 = pr.quaternion_slerp(q, neg_q, 1.0)
+    assert abs(np.dot(end_at_t1, neg_q)) == pytest.approx(1.0)
     assert_array_almost_equal(
         pr.quaternion_slerp(q, neg_q, 0.5),
         pr.quaternion_slerp(q, neg_q, 0.5, shortest_path=True),
