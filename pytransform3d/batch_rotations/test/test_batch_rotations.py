@@ -1029,3 +1029,16 @@ def test_norm_axis_angles_180_degrees_deterministic_batch():
     a_zero_axis = np.array([0.0, 0.0, 0.0, np.pi])
     res_zero_axis = pbr.norm_axis_angles(a_zero_axis)
     assert_array_almost_equal(res_zero_axis, [1.0, 0.0, 0.0, 0.0])
+
+
+def test_quaternion_slerp_batch_antipodal():
+    """Antipodal inputs stay unit quaternions in the batch API."""
+    q = np.array([0.5, 0.5, 0.5, 0.5])
+    t = np.array([0.0, 0.25, 0.5, 0.75, 1.0])
+    Q = pbr.quaternion_slerp_batch(q, -q, t)
+    assert_array_almost_equal(np.linalg.norm(Q, axis=1), np.ones(len(t)))
+    assert abs(np.dot(Q[-1], -q)) == pytest.approx(1.0)
+    assert_array_almost_equal(
+        Q,
+        pbr.quaternion_slerp_batch(q, -q, t, shortest_path=True),
+    )
