@@ -141,7 +141,9 @@ def quaternion_slerp(start, end, t, shortest_path=False):
     Returns
     -------
     q : array, shape (4,)
-        Interpolated unit quaternion to represent rotation: (w, x, y, z)
+        Interpolated unit quaternion to represent rotation: (w, x, y, z).
+        For antipodal inputs, ``t = 1`` gives ``-end``, which represents
+        the same rotation.
 
     See Also
     --------
@@ -162,6 +164,11 @@ def quaternion_slerp(start, end, t, shortest_path=False):
     if shortest_path:
         end = pick_closest_quaternion_impl(end, start)
     angle = angle_between_vectors(start, end)
+    if abs(np.sin(angle)) < np.finfo(float).eps and np.cos(angle) < 0.0:
+        # Antipodal quaternions describe the same rotation. The linear
+        # fallback in slerp_weights would pass through the zero quaternion.
+        end = pick_closest_quaternion_impl(end, start)
+        angle = angle_between_vectors(start, end)
     w1, w2 = slerp_weights(angle, t)
     return w1 * start + w2 * end
 

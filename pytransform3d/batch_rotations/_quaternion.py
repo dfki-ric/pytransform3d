@@ -188,6 +188,11 @@ def quaternion_slerp_batch(start, end, t, shortest_path=False):
     if shortest_path:
         end = pick_closest_quaternion(end, start)
     angle = angle_between_vectors(start, end)
+    if abs(np.sin(angle)) < np.finfo(float).eps and np.cos(angle) < 0.0:
+        # Antipodal quaternions describe the same rotation; avoid the
+        # zero quaternion from the linear fallback in slerp_weights.
+        end = pick_closest_quaternion(end, start)
+        angle = angle_between_vectors(start, end)
     w1, w2 = slerp_weights(angle, t)
     return (
         w1[:, np.newaxis] * start[np.newaxis]
