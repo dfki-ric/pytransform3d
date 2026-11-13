@@ -97,12 +97,62 @@ def test_mrp_prod_vector_along_axis(mrp, v):
     assert_array_almost_equal(v, pr.mrp_prod_vector(mrp, v))
 
 
-def test_mrp_prod_vector_integer_mrp():
-    mrp = np.array([12, 0, 0], dtype=np.int8)
+@pytest.mark.parametrize("dtype", [np.int8, np.uint8, np.float32, np.float64])
+def test_mrp_prod_vector_integer_mrp(dtype):
+    mrp = np.array([12, 0, 0], dtype=dtype)
     v = [0.0, 1.0, 0.0]
     assert_array_almost_equal(
         pr.mrp_prod_vector(mrp.astype(float), v), pr.mrp_prod_vector(mrp, v)
     )
+
+
+@pytest.mark.parametrize("scale", [0.0, 1e-8, 0.5, 1.0, 2.0, 1e8, 1e100])
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+def test_mrp_prod_vector_direct_formula(scale, dtype):
+    # Large MRPs approach the 2*pi singularity; no denominator square is needed.
+    mrp = scale * np.array([0.0, 0.6, 0.8])
+    v = np.array([1.0, -2.0, 3.0], dtype=dtype)
+    mrp_before, v_before = mrp.copy(), v.copy()
+    np.testing.assert_array_equal(pr.mrp_prod_vector(mrp, [0, 0, 0]), [0, 0, 0])
+    rotated = pr.mrp_prod_vector(mrp, v)
+    expected = pr.q_prod_vector(pr.quaternion_from_mrp(mrp), v)
+    np.testing.assert_allclose(rotated, expected, rtol=1e-12, atol=1e-12)
+    np.testing.assert_allclose(
+        np.linalg.norm(rotated), np.linalg.norm(v.astype(float))
+    )
+    np.testing.assert_allclose(pr.mrp_prod_vector(-mrp, rotated), v, atol=1e-12)
+    np.testing.assert_allclose(
+        pr.mrp_prod_vector(mrp, 2.0 * v), 2.0 * rotated, atol=1e-12
+    )
+    if scale != 0.0:
+        np.testing.assert_allclose(
+            pr.mrp_prod_vector(pr.mrp_double(mrp), v), rotated, atol=1e-12
+        )
+    np.testing.assert_array_equal(mrp, mrp_before)
+    np.testing.assert_array_equal(v, v_before)
+
+
+@pytest.mark.parametrize("offset", [-1e-8, 0.0, 1e-8])
+def test_mrp_prod_vector_near_singular_concatenation(offset):
+    mrp = [1.0, 0.0, 0.0]
+    v = [1.0 + offset, offset, 0.0]
+    np.testing.assert_allclose(
+        pr.mrp_prod_vector(mrp, v), [1.0 + offset, -offset, 0.0], atol=1e-15
+    )
+
+
+@pytest.mark.parametrize(
+    "mrp, v",
+    [
+        ([], [1, 0, 0]),
+        ([0, 0, 0], []),
+        ([[1, 0, 0]], [1, 0, 0]),
+        ([1, 0, 0], [[1, 0, 0]]),
+    ],
+)
+def test_mrp_prod_vector_invalid_shape(mrp, v):
+    with pytest.raises(ValueError, match=r"shape \(3,\)"):
+        pr.mrp_prod_vector(mrp, v)
 
 
 def test_mrp_quat_conversions():

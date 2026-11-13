@@ -6,7 +6,6 @@ from numpy.testing import assert_array_almost_equal
 from ._angle import norm_angle
 from ._axis_angle import mrp_from_axis_angle
 from ._constants import two_pi, eps
-from ._quaternion import q_prod_vector
 
 
 def check_mrp(mrp):
@@ -203,8 +202,19 @@ def concatenate_mrp(mrp1, mrp2):
 def mrp_prod_vector(mrp, v):
     r"""Apply rotation represented by MRPs to a vector.
 
-    We convert the modified Rodrigues parameters to a unit quaternion and
-    apply the rotation to the vector.
+    The MRP sandwich product can be simplified to a direct vector expression:
+
+    .. math::
+
+        \boldsymbol{w} = \boldsymbol{v} +
+        \frac{4(1 - ||\boldsymbol{\psi}||^2)
+        (\boldsymbol{\psi} \times \boldsymbol{v})
+        + 8\boldsymbol{\psi} \times
+        (\boldsymbol{\psi} \times \boldsymbol{v})}
+        {(1 + ||\boldsymbol{\psi}||^2)^2}.
+
+    This avoids the singular intermediate MRP representation that can occur
+    when evaluating the two concatenations separately.
 
     Parameters
     ----------
@@ -221,11 +231,21 @@ def mrp_prod_vector(mrp, v):
 
     See Also
     --------
-    quaternion_from_mrp : Convert MRPs to a unit quaternion.
+    concatenate_mrp : Concatenates MRPs.
     q_prod_vector : The same operation with a quaternion.
     """
-    mrp = np.asarray(mrp, dtype=float)
-    return q_prod_vector(quaternion_from_mrp(mrp), check_mrp(v))
+    mrp = check_mrp(np.asarray(mrp, dtype=float))
+    v = check_mrp(np.asarray(v, dtype=float))
+    norm_sq = np.dot(mrp, mrp)
+    denominator = 1.0 + norm_sq
+    # Scale before taking cross products to avoid squaring the denominator.
+    mrp_scaled = mrp / denominator
+    cross = np.cross(mrp_scaled, v)
+    return (
+        v
+        + 4.0 * ((1.0 - norm_sq) / denominator) * cross
+        + 8.0 * np.cross(mrp_scaled, cross)
+    )
 
 
 def quaternion_from_mrp(mrp):
