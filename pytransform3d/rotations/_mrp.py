@@ -202,10 +202,19 @@ def concatenate_mrp(mrp1, mrp2):
 def mrp_prod_vector(mrp, v):
     r"""Apply rotation represented by MRPs to a vector.
 
-    To apply the rotation defined by modified Rodrigues parameters
-    :math:`\boldsymbol{\psi} \in \mathbb{R}^3` to a vector
-    :math:`\boldsymbol{v} \in \mathbb{R}^3`, we left-concatenate the original
-    MRPs and then right-concatenate its inverted (negative) version.
+    The MRP sandwich product can be simplified to a direct vector expression:
+
+    .. math::
+
+        \boldsymbol{w} = \boldsymbol{v} +
+        \frac{4(1 - ||\boldsymbol{\psi}||^2)
+        (\boldsymbol{\psi} \times \boldsymbol{v})
+        + 8\boldsymbol{\psi} \times
+        (\boldsymbol{\psi} \times \boldsymbol{v})}
+        {(1 + ||\boldsymbol{\psi}||^2)^2}.
+
+    This avoids the singular intermediate MRP representation that can occur
+    when evaluating the two concatenations separately.
 
     Parameters
     ----------
@@ -225,8 +234,18 @@ def mrp_prod_vector(mrp, v):
     concatenate_mrp : Concatenates MRPs.
     q_prod_vector : The same operation with a quaternion.
     """
-    mrp = check_mrp(mrp)
-    return concatenate_mrp(concatenate_mrp(mrp, v), -mrp)
+    mrp = check_mrp(np.asarray(mrp, dtype=float))
+    v = check_mrp(np.asarray(v, dtype=float))
+    norm_sq = np.dot(mrp, mrp)
+    denominator = 1.0 + norm_sq
+    # Scale before taking cross products to avoid squaring the denominator.
+    mrp_scaled = mrp / denominator
+    cross = np.cross(mrp_scaled, v)
+    return (
+        v
+        + 4.0 * ((1.0 - norm_sq) / denominator) * cross
+        + 8.0 * np.cross(mrp_scaled, cross)
+    )
 
 
 def quaternion_from_mrp(mrp):
