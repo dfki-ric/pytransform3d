@@ -235,7 +235,12 @@ def mrp_prod_vector(mrp, v):
     q_prod_vector : The same operation with a quaternion.
     """
     mrp = check_mrp(np.asarray(mrp, dtype=float))
-    v = check_mrp(np.asarray(v, dtype=float))
+    v = np.asarray(v, dtype=float)
+    if v.shape != (3,):
+        raise ValueError(
+            "Expected vector with shape (3,), got array-like object "
+            "with shape %s" % (v.shape,)
+        )
     norm_sq = np.dot(mrp, mrp)
     denominator = 1.0 + norm_sq
     # Scale before taking cross products to avoid squaring the denominator.
