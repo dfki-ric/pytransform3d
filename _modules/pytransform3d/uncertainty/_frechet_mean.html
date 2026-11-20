@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.uncertainty._frechet_mean &#8212; pytransform3d 3.17.0 documentation</title>
+    <title>pytransform3d.uncertainty._frechet_mean &#8212; pytransform3d 3.18.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=768b6f62"></script>
+    <script src="../../../_static/documentation_options.js?v=c098c0e6"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/uncertainty/_frechet_mean';</script>
@@ -48,7 +48,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 06, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 20, 2026"/>
   </head>
   
   
@@ -126,8 +126,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.17.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.17.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.18.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.18.0"/>`);</script>
   
   
 </a></div>
@@ -366,7 +366,7 @@ document.write(`
     <span class="n">matrices_from_compact_axis_angles</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">..trajectories</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">concat_many_to_one</span><span class="p">,</span>
+    <span class="n">concat_one_to_many</span><span class="p">,</span>
     <span class="n">exponential_coordinates_from_transforms</span><span class="p">,</span>
     <span class="n">transforms_from_exponential_coordinates</span><span class="p">,</span>
 <span class="p">)</span>
@@ -385,12 +385,13 @@ document.write(`
     <span class="n">log</span><span class="p">,</span>
     <span class="n">inv</span><span class="p">,</span>
     <span class="n">concat_one_to_one</span><span class="p">,</span>
-    <span class="n">concat_many_to_one</span><span class="p">,</span>
+    <span class="n">concat_one_to_many</span><span class="p">,</span>
     <span class="n">n_iter</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Compute the Fréchet mean of samples on a smooth Riemannian manifold.</span>
 
-<span class="sd">    The mean is computed with an iterative optimization algorithm [1]_ [2]_:</span>
+<span class="sd">    The mean is computed with an iterative optimization algorithm [1]_ [2]_</span>
+<span class="sd">    as described by Eade [3]_ (Section 8.5, Eqs. 237-240):</span>
 
 <span class="sd">    1. For a set of samples :math:`\{x_1, \ldots, x_n\}`, we initialize</span>
 <span class="sd">       the estimated mean :math:`\bar{x}_0`, e.g., as :math:`x_1`.</span>
@@ -405,6 +406,12 @@ document.write(`
 <span class="sd">          \exp(\frac{1}{N}\sum_i d_{i,k}) \cdot \bar{x}_k`.</span>
 
 <span class="sd">    3. Return :math:`\bar{x}_K`.</span>
+
+<span class="sd">    The differences :math:`d_{i,k}` are expressed in the global frame (they</span>
+<span class="sd">    are left-multiplied to the mean). This corresponds to Gaussian</span>
+<span class="sd">    distributions that are defined by :math:`x = \exp(\delta) \cdot \bar{x}`</span>
+<span class="sd">    with :math:`\delta \sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})`</span>
+<span class="sd">    (see Eade [3]_, Eq. 224).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -426,9 +433,12 @@ document.write(`
 <span class="sd">    concat_one_to_one : callable</span>
 <span class="sd">        Concatenates elements on the manifold.</span>
 
-<span class="sd">    concat_many_to_one : callable</span>
-<span class="sd">        Concatenates multiple elements on the manifold to one element on the</span>
-<span class="sd">        manifold.</span>
+<span class="sd">    concat_one_to_many : callable</span>
+<span class="sd">        Concatenates one element on the manifold to multiple elements on the</span>
+<span class="sd">        manifold. For transformation matrices, the element y is</span>
+<span class="sd">        right-multiplied to each sample :math:`x_i`, i.e.,</span>
+<span class="sd">        ``concat_one_to_many(y, samples)`` computes :math:`x_i \cdot y`</span>
+<span class="sd">        (see :func:`~pytransform3d.trajectories.concat_one_to_many`).</span>
 
 <span class="sd">    n_iter : int, optional (default: 20)</span>
 <span class="sd">        Number of iterations of the optimization algorithm.</span>
@@ -439,9 +449,10 @@ document.write(`
 <span class="sd">        Fréchet mean on the manifold.</span>
 
 <span class="sd">    mean_diffs : array, shape (n_samples, n_tangent_space_components)</span>
-<span class="sd">        Differences between the mean and the samples in the tangent space.</span>
-<span class="sd">        These can be used to compute the covariance. They are returned to</span>
-<span class="sd">        avoid recomputing them.</span>
+<span class="sd">        Differences :math:`d_{i,K-1}` between the samples and the mean of the</span>
+<span class="sd">        last iteration in the tangent space (global frame). These can be used</span>
+<span class="sd">        to compute the covariance (see Eade [3]_, Eq. 239). They are returned</span>
+<span class="sd">        to avoid recomputing them.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -462,12 +473,15 @@ document.write(`
 <span class="sd">    .. [2] Pennec, X. (2006). Intrinsic Statistics on Riemannian Manifolds:</span>
 <span class="sd">       Basic Tools for Geometric Measurements. J Math Imaging Vis 25, 127-154.</span>
 <span class="sd">       https://doi.org/10.1007/s10851-006-6228-4</span>
+
+<span class="sd">    .. [3] Eade, E. (2017). Lie Groups for 2D and 3D Transformations.</span>
+<span class="sd">       https://ethaneade.com/lie.pdf</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
     <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span>
     <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">mean0</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_iter</span><span class="p">):</span>
-        <span class="n">mean_diffs</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">concat_many_to_one</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">inv</span><span class="p">(</span><span class="n">mean</span><span class="p">)))</span>
+        <span class="n">mean_diffs</span> <span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">concat_one_to_many</span><span class="p">(</span><span class="n">inv</span><span class="p">(</span><span class="n">mean</span><span class="p">),</span> <span class="n">samples</span><span class="p">))</span>
         <span class="n">avg_mean_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mean_diffs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">mean</span> <span class="o">=</span> <span class="n">concat_one_to_one</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">exp</span><span class="p">(</span><span class="n">avg_mean_diff</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">mean</span><span class="p">,</span> <span class="n">mean_diffs</span></div>
@@ -477,11 +491,11 @@ document.write(`
 <div class="viewcode-block" id="estimate_gaussian_rotation_matrix_from_samples">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.uncertainty.estimate_gaussian_rotation_matrix_from_samples.html#pytransform3d.uncertainty.estimate_gaussian_rotation_matrix_from_samples">[docs]</a>
 <span class="k">def</span> <span class="nf">estimate_gaussian_rotation_matrix_from_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimate Gaussian distribution over rotations from samples.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Estimate Gaussian distribution over rotations from samples.</span>
 
 <span class="sd">    Computes the Fréchet mean of the samples and the covariance in tangent</span>
 <span class="sd">    space (exponential coordinates of rotation / rotation vectors) using an</span>
-<span class="sd">    unbiased estimator as outlines by Eade [1]_.</span>
+<span class="sd">    unbiased estimator as outlined by Eade [1]_ (Section 8.5).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -495,6 +509,12 @@ document.write(`
 
 <span class="sd">    cov : array, shape (3, 3)</span>
 <span class="sd">        Covariance of the Gaussian distribution in exponential coordinates.</span>
+<span class="sd">        The noise is defined in the global frame, i.e., samples are</span>
+<span class="sd">        :math:`\boldsymbol{R} = \exp(\boldsymbol{\delta})</span>
+<span class="sd">        \cdot \bar{\boldsymbol{R}}` with</span>
+<span class="sd">        :math:`\boldsymbol{\delta} \sim</span>
+<span class="sd">        \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})` as in</span>
+<span class="sd">        :func:`~pytransform3d.rotations.random_matrix`.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -518,7 +538,7 @@ document.write(`
         <span class="n">log</span><span class="o">=</span><span class="n">compact_axis_angles_from_matrices</span><span class="p">,</span>
         <span class="n">inv</span><span class="o">=</span><span class="k">lambda</span> <span class="n">R</span><span class="p">:</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
         <span class="n">concat_one_to_one</span><span class="o">=</span><span class="k">lambda</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">R1</span><span class="p">),</span>
-        <span class="n">concat_many_to_one</span><span class="o">=</span><span class="n">concat_many_to_one</span><span class="p">,</span>
+        <span class="n">concat_one_to_many</span><span class="o">=</span><span class="n">concat_one_to_many</span><span class="p">,</span>
         <span class="n">n_iter</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -530,7 +550,7 @@ document.write(`
 <div class="viewcode-block" id="estimate_gaussian_transform_from_samples">
 <a class="viewcode-back" href="../../../_apidoc/pytransform3d.uncertainty.estimate_gaussian_transform_from_samples.html#pytransform3d.uncertainty.estimate_gaussian_transform_from_samples">[docs]</a>
 <span class="k">def</span> <span class="nf">estimate_gaussian_transform_from_samples</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Estimate Gaussian distribution over transformations from samples.</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Estimate Gaussian distribution over transformations from samples.</span>
 
 <span class="sd">    Computes the Fréchet mean of the samples and the covariance in tangent</span>
 <span class="sd">    space (exponential coordinates of transformation) using an unbiased</span>
@@ -547,7 +567,13 @@ document.write(`
 <span class="sd">        Mean as homogeneous transformation matrix.</span>
 
 <span class="sd">    cov : array, shape (6, 6)</span>
-<span class="sd">        Covariance of distribution in exponential coordinate space.</span>
+<span class="sd">        Covariance of distribution in exponential coordinate space. The noise</span>
+<span class="sd">        is defined in the global frame, i.e., samples are</span>
+<span class="sd">        :math:`\boldsymbol{T} = \exp(\boldsymbol{\delta})</span>
+<span class="sd">        \cdot \bar{\boldsymbol{T}}` with</span>
+<span class="sd">        :math:`\boldsymbol{\delta} \sim</span>
+<span class="sd">        \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})` as in</span>
+<span class="sd">        :func:`~pytransform3d.transformations.random_transform`.</span>
 
 <span class="sd">    See Also</span>
 <span class="sd">    --------</span>
@@ -566,7 +592,7 @@ document.write(`
         <span class="n">log</span><span class="o">=</span><span class="n">exponential_coordinates_from_transforms</span><span class="p">,</span>
         <span class="n">inv</span><span class="o">=</span><span class="n">invert_transform</span><span class="p">,</span>
         <span class="n">concat_one_to_one</span><span class="o">=</span><span class="n">concat</span><span class="p">,</span>
-        <span class="n">concat_many_to_one</span><span class="o">=</span><span class="n">concat_many_to_one</span><span class="p">,</span>
+        <span class="n">concat_one_to_many</span><span class="o">=</span><span class="n">concat_one_to_many</span><span class="p">,</span>
         <span class="n">n_iter</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
     <span class="p">)</span>
 

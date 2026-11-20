@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.uncertainty.frechet_mean &#8212; pytransform3d 3.17.0 documentation</title>
+    <title>pytransform3d.uncertainty.frechet_mean &#8212; pytransform3d 3.18.0 documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=768b6f62"></script>
+    <script src="../_static/documentation_options.js?v=c098c0e6"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -52,7 +52,7 @@
     <link rel="prev" title="pytransform3d.uncertainty.estimate_gaussian_transform_from_samples" href="pytransform3d.uncertainty.estimate_gaussian_transform_from_samples.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 06, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 20, 2026"/>
   </head>
   
   
@@ -130,8 +130,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.17.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.17.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.18.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.18.0"/>`);</script>
   
   
 </a></div>
@@ -794,9 +794,10 @@ document.write(`
 <h1><a class="reference internal" href="../api.html#module-pytransform3d.uncertainty" title="pytransform3d.uncertainty"><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytransform3d.uncertainty</span></code></a>.frechet_mean<a class="headerlink" href="#pytransform3d-uncertainty-frechet-mean" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="pytransform3d.uncertainty.frechet_mean">
-<span class="sig-prename descclassname"><span class="pre">pytransform3d.uncertainty.</span></span><span class="sig-name descname"><span class="pre">frechet_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concat_one_to_one</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concat_many_to_one</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/uncertainty/_frechet_mean.html#frechet_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.uncertainty.frechet_mean" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">pytransform3d.uncertainty.</span></span><span class="sig-name descname"><span class="pre">frechet_mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inv</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concat_one_to_one</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concat_one_to_many</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pytransform3d/uncertainty/_frechet_mean.html#frechet_mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pytransform3d.uncertainty.frechet_mean" title="Link to this definition">#</a></dt>
 <dd><p>Compute the Fréchet mean of samples on a smooth Riemannian manifold.</p>
-<p>The mean is computed with an iterative optimization algorithm <a class="reference internal" href="#rbcf3d2735ba6-1" id="id1">[1]</a> <a class="reference internal" href="#rbcf3d2735ba6-2" id="id2">[2]</a>:</p>
+<p>The mean is computed with an iterative optimization algorithm <a class="reference internal" href="#rbcf3d2735ba6-1" id="id1">[1]</a> <a class="reference internal" href="#rbcf3d2735ba6-2" id="id2">[2]</a>
+as described by Eade <a class="reference internal" href="#rbcf3d2735ba6-3" id="id3">[3]</a> (Section 8.5, Eqs. 237-240):</p>
 <ol class="arabic simple">
 <li><p>For a set of samples <span class="math notranslate nohighlight">\(\{x_1, \ldots, x_n\}\)</span>, we initialize
 the estimated mean <span class="math notranslate nohighlight">\(\bar{x}_0\)</span>, e.g., as <span class="math notranslate nohighlight">\(x_1\)</span>.</p></li>
@@ -813,6 +814,11 @@ mean in tangent space with
 </li>
 <li><p>Return <span class="math notranslate nohighlight">\(\bar{x}_K\)</span>.</p></li>
 </ol>
+<p>The differences <span class="math notranslate nohighlight">\(d_{i,k}\)</span> are expressed in the global frame (they
+are left-multiplied to the mean). This corresponds to Gaussian
+distributions that are defined by <span class="math notranslate nohighlight">\(x = \exp(\delta) \cdot \bar{x}\)</span>
+with <span class="math notranslate nohighlight">\(\delta \sim \mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})\)</span>
+(see Eade <a class="reference internal" href="#rbcf3d2735ba6-3" id="id4">[3]</a>, Eq. 224).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -828,8 +834,11 @@ mean in tangent space with
 </dd>
 <dt><strong>concat_one_to_one</strong><span class="classifier">callable</span></dt><dd><p>Concatenates elements on the manifold.</p>
 </dd>
-<dt><strong>concat_many_to_one</strong><span class="classifier">callable</span></dt><dd><p>Concatenates multiple elements on the manifold to one element on the
-manifold.</p>
+<dt><strong>concat_one_to_many</strong><span class="classifier">callable</span></dt><dd><p>Concatenates one element on the manifold to multiple elements on the
+manifold. For transformation matrices, the element y is
+right-multiplied to each sample <span class="math notranslate nohighlight">\(x_i\)</span>, i.e.,
+<code class="docutils literal notranslate"><span class="pre">concat_one_to_many(y,</span> <span class="pre">samples)</span></code> computes <span class="math notranslate nohighlight">\(x_i \cdot y\)</span>
+(see <a class="reference internal" href="pytransform3d.trajectories.concat_one_to_many.html#pytransform3d.trajectories.concat_one_to_many" title="pytransform3d.trajectories.concat_one_to_many"><code class="xref py py-func docutils literal notranslate"><span class="pre">concat_one_to_many()</span></code></a>).</p>
 </dd>
 <dt><strong>n_iter</strong><span class="classifier">int, optional (default: 20)</span></dt><dd><p>Number of iterations of the optimization algorithm.</p>
 </dd>
@@ -839,9 +848,10 @@ manifold.</p>
 <dd class="field-even"><dl class="simple">
 <dt><strong>mean</strong><span class="classifier">array, shape (…)</span></dt><dd><p>Fréchet mean on the manifold.</p>
 </dd>
-<dt><strong>mean_diffs</strong><span class="classifier">array, shape (n_samples, n_tangent_space_components)</span></dt><dd><p>Differences between the mean and the samples in the tangent space.
-These can be used to compute the covariance. They are returned to
-avoid recomputing them.</p>
+<dt><strong>mean_diffs</strong><span class="classifier">array, shape (n_samples, n_tangent_space_components)</span></dt><dd><p>Differences <span class="math notranslate nohighlight">\(d_{i,K-1}\)</span> between the samples and the mean of the
+last iteration in the tangent space (global frame). These can be used
+to compute the covariance (see Eade <a class="reference internal" href="#rbcf3d2735ba6-3" id="id5">[3]</a>, Eq. 239). They are returned
+to avoid recomputing them.</p>
 </dd>
 </dl>
 </dd>
@@ -868,6 +878,12 @@ dans un espace distancié. Annales de l’Institut Henri Poincaré, 10(3),
 <p>Pennec, X. (2006). Intrinsic Statistics on Riemannian Manifolds:
 Basic Tools for Geometric Measurements. J Math Imaging Vis 25, 127-154.
 <a class="reference external" href="https://doi.org/10.1007/s10851-006-6228-4">https://doi.org/10.1007/s10851-006-6228-4</a></p>
+</div>
+<div class="citation" id="rbcf3d2735ba6-3" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id4">2</a>,<a role="doc-backlink" href="#id5">3</a>)</span>
+<p>Eade, E. (2017). Lie Groups for 2D and 3D Transformations.
+<a class="reference external" href="https://ethaneade.com/lie.pdf">https://ethaneade.com/lie.pdf</a></p>
 </div>
 </div>
 </dd></dl>

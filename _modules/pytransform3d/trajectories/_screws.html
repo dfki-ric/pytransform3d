@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pytransform3d.trajectories._screws &#8212; pytransform3d 3.17.0 documentation</title>
+    <title>pytransform3d.trajectories._screws &#8212; pytransform3d 3.18.0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=768b6f62"></script>
+    <script src="../../../_static/documentation_options.js?v=c098c0e6"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/pytransform3d/trajectories/_screws';</script>
@@ -48,7 +48,7 @@
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 06, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 20, 2026"/>
   </head>
   
   
@@ -126,8 +126,8 @@
       
     
     
-    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.17.0"/>
-    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.17.0"/>`);</script>
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.18.0"/>
+    <script>document.write(`<img src="../../../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.18.0"/>`);</script>
   
   
 </a></div>
@@ -397,6 +397,10 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Sthetas_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">),</span> <span class="mi">6</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">Stheta</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">Sthetas</span><span class="p">):</span>
+        <span class="n">pure_translation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">Stheta</span><span class="p">[:</span><span class="mi">3</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span>
+        <span class="k">if</span> <span class="n">pure_translation</span><span class="p">:</span>
+            <span class="n">Sthetas_new</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Stheta</span>
+            <span class="k">continue</span>
         <span class="n">S</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">screw_axis_from_exponential_coordinates</span><span class="p">(</span><span class="n">Stheta</span><span class="p">)</span>
         <span class="n">q</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">screw_parameters_from_screw_axis</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
         <span class="n">s_new</span> <span class="o">=</span> <span class="o">-</span><span class="n">s</span>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>pytransform3d.uncertainty.estimate_gaussian_transform_from_samples &#8212; pytransform3d 3.17.0 documentation</title>
+    <title>pytransform3d.uncertainty.estimate_gaussian_transform_from_samples &#8212; pytransform3d 3.18.0 documentation</title>
   
   
   
@@ -41,9 +41,10 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=768b6f62"></script>
+    <script src="../_static/documentation_options.js?v=c098c0e6"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_apidoc/pytransform3d.uncertainty.estimate_gaussian_transform_from_samples';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -51,7 +52,7 @@
     <link rel="prev" title="pytransform3d.uncertainty.estimate_gaussian_rotation_matrix_from_samples" href="pytransform3d.uncertainty.estimate_gaussian_rotation_matrix_from_samples.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-    <meta name="docbuild:last-update" content="Oct 06, 2026"/>
+    <meta name="docbuild:last-update" content="Nov 20, 2026"/>
   </head>
   
   
@@ -129,8 +130,8 @@
       
     
     
-    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.17.0"/>
-    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.17.0"/>`);</script>
+    <img src="../_static/logo.png" class="logo__image only-light" alt="pytransform3d 3.18.0"/>
+    <script>document.write(`<img src="../_static/logo.png" class="logo__image only-dark" alt="pytransform3d 3.18.0"/>`);</script>
   
   
 </a></div>
@@ -809,7 +810,13 @@ estimator as outlines by Eade <a class="reference internal" href="#r8d000e5e43d0
 <dd class="field-even"><dl class="simple">
 <dt><strong>mean</strong><span class="classifier">array, shape (4, 4)</span></dt><dd><p>Mean as homogeneous transformation matrix.</p>
 </dd>
-<dt><strong>cov</strong><span class="classifier">array, shape (6, 6)</span></dt><dd><p>Covariance of distribution in exponential coordinate space.</p>
+<dt><strong>cov</strong><span class="classifier">array, shape (6, 6)</span></dt><dd><p>Covariance of distribution in exponential coordinate space. The noise
+is defined in the global frame, i.e., samples are
+<span class="math notranslate nohighlight">\(\boldsymbol{T} = \exp(\boldsymbol{\delta})
+\cdot \bar{\boldsymbol{T}}\)</span> with
+<span class="math notranslate nohighlight">\(\boldsymbol{\delta} \sim
+\mathcal{N}(\boldsymbol{0}, \boldsymbol{\Sigma})\)</span> as in
+<a class="reference internal" href="pytransform3d.transformations.random_transform.html#pytransform3d.transformations.random_transform" title="pytransform3d.transformations.random_transform"><code class="xref py py-func docutils literal notranslate"><span class="pre">random_transform()</span></code></a>.</p>
 </dd>
 </dl>
 </dd>
