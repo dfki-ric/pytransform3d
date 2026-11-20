@@ -143,6 +143,13 @@ def quaternion_slerp(start, end, t, shortest_path=False):
     q : array, shape (4,)
         Interpolated unit quaternion to represent rotation: (w, x, y, z)
 
+    Raises
+    ------
+    ValueError
+        If the two quaternions are antipodal and ``shortest_path`` is False.
+        Antipodal quaternions describe the same rotation, so the path to
+        interpolate along is not unique.
+
     See Also
     --------
     matrix_slerp :
@@ -162,6 +169,14 @@ def quaternion_slerp(start, end, t, shortest_path=False):
     if shortest_path:
         end = pick_closest_quaternion_impl(end, start)
     angle = angle_between_vectors(start, end)
+    if not shortest_path and (
+        abs(np.sin(angle)) < np.finfo(float).eps and np.cos(angle) < 0.0
+    ):
+        raise ValueError(
+            "Cannot interpolate antipodal quaternions with "
+            "shortest_path=False, because the rotation path is not unique. "
+            "Pass shortest_path=True to interpolate along the shorter path."
+        )
     w1, w2 = slerp_weights(angle, t)
     return w1 * start + w2 * end
 

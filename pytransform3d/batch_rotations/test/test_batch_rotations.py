@@ -1050,3 +1050,20 @@ def test_norm_axis_angles_180_degrees_deterministic_batch():
     a_zero_axis = np.array([0.0, 0.0, 0.0, np.pi])
     res_zero_axis = pbr.norm_axis_angles(a_zero_axis)
     assert_array_almost_equal(res_zero_axis, [1.0, 0.0, 0.0, 0.0])
+
+
+def test_quaternion_slerp_batch_antipodal_raises_without_shortest_path():
+    """Antipodal inputs have no unique path without shortest_path."""
+    q = np.array([0.5, 0.5, 0.5, 0.5])
+    t = np.array([0.0, 0.25, 0.5, 0.75, 1.0])
+    with pytest.raises(ValueError, match="antipodal"):
+        pbr.quaternion_slerp_batch(q, -q, t)
+
+
+def test_quaternion_slerp_batch_antipodal_shortest_path():
+    """shortest_path resolves antipodal inputs to unit quaternions."""
+    q = np.array([0.5, 0.5, 0.5, 0.5])
+    t = np.array([0.0, 0.25, 0.5, 0.75, 1.0])
+    Q = pbr.quaternion_slerp_batch(q, -q, t, shortest_path=True)
+    assert_array_almost_equal(np.linalg.norm(Q, axis=1), np.ones(len(t)))
+    assert abs(np.dot(Q[-1], -q)) == pytest.approx(1.0)
