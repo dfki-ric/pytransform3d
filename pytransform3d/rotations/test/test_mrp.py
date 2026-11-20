@@ -90,6 +90,110 @@ def test_mrp_prod_vector():
         assert_array_almost_equal(v_mrp, v_q)
 
 
+@pytest.mark.parametrize(
+    "mrp, v", [([1, 0, 0], [1, 0, 0]), ([0, 0.5, 0], [0, 2, 0])]
+)
+def test_mrp_prod_vector_along_axis(mrp, v):
+    assert_array_almost_equal(v, pr.mrp_prod_vector(mrp, v))
+
+
+def test_mrp_prod_vector_integer_mrp():
+    mrp = np.array([12, 0, 0], dtype=np.int8)
+    v = [0.0, 1.0, 0.0]
+    assert_array_almost_equal(
+        pr.mrp_prod_vector(mrp.astype(float), v), pr.mrp_prod_vector(mrp, v)
+    )
+
+
+@pytest.fixture(params=[0.0, 1e-8, 0.5, 1.0, 2.0, 1e8, 1e100])
+def mrp_vector_inputs(request):
+    # Large MRPs approach the 2*pi singularity; no denominator square is needed.
+    mrp = request.param * np.array([0.0, 0.6, 0.8])
+    v = np.array([1.0, -2.0, 3.0])
+    return mrp, v
+
+
+def test_mrp_prod_vector_direct_formula(mrp_vector_inputs):
+    mrp, v = mrp_vector_inputs
+    expected = pr.q_prod_vector(pr.quaternion_from_mrp(mrp), v)
+    np.testing.assert_allclose(
+        pr.mrp_prod_vector(mrp, v), expected, rtol=1e-12, atol=1e-12
+    )
+
+
+def test_mrp_prod_vector_zero(mrp_vector_inputs):
+    mrp, _ = mrp_vector_inputs
+    np.testing.assert_array_equal(pr.mrp_prod_vector(mrp, [0, 0, 0]), [0, 0, 0])
+
+
+def test_mrp_prod_vector_preserves_norm(mrp_vector_inputs):
+    mrp, v = mrp_vector_inputs
+    np.testing.assert_allclose(
+        np.linalg.norm(pr.mrp_prod_vector(mrp, v)), np.linalg.norm(v)
+    )
+
+
+def test_mrp_prod_vector_inverse(mrp_vector_inputs):
+    mrp, v = mrp_vector_inputs
+    rotated = pr.mrp_prod_vector(mrp, v)
+    np.testing.assert_allclose(pr.mrp_prod_vector(-mrp, rotated), v, atol=1e-12)
+
+
+def test_mrp_prod_vector_linear(mrp_vector_inputs):
+    mrp, v = mrp_vector_inputs
+    np.testing.assert_allclose(
+        pr.mrp_prod_vector(mrp, 2.0 * v),
+        2.0 * pr.mrp_prod_vector(mrp, v),
+        atol=1e-12,
+    )
+
+
+def test_mrp_prod_vector_shadow(mrp_vector_inputs):
+    mrp, v = mrp_vector_inputs
+    np.testing.assert_allclose(
+        pr.mrp_prod_vector(pr.mrp_double(mrp), v),
+        pr.mrp_prod_vector(mrp, v),
+        atol=1e-12,
+    )
+
+
+def test_mrp_prod_vector_preserves_inputs(mrp_vector_inputs):
+    mrp, v = mrp_vector_inputs
+    mrp_before, v_before = mrp.copy(), v.copy()
+    pr.mrp_prod_vector(mrp, v)
+    np.testing.assert_array_equal(mrp, mrp_before)
+    np.testing.assert_array_equal(v, v_before)
+
+
+@pytest.mark.parametrize("offset", [-1e-8, 0.0, 1e-8])
+def test_mrp_prod_vector_near_singular_concatenation(offset):
+    mrp = [1.0, 0.0, 0.0]
+    v = [1.0 + offset, offset, 0.0]
+    np.testing.assert_allclose(
+        pr.mrp_prod_vector(mrp, v), [1.0 + offset, -offset, 0.0], atol=1e-15
+    )
+
+
+@pytest.mark.parametrize(
+    "mrp, v",
+    [
+        ([], [1, 0, 0]),
+        ([0, 0, 0], []),
+        ([[1, 0, 0]], [1, 0, 0]),
+        ([1, 0, 0], [[1, 0, 0]]),
+    ],
+)
+def test_mrp_prod_vector_invalid_shape(mrp, v):
+    with pytest.raises(ValueError, match=r"shape \(3,\)"):
+        pr.mrp_prod_vector(mrp, v)
+
+
+@pytest.mark.parametrize("v", [[], [[1, 0, 0]], 1.0])
+def test_mrp_prod_vector_invalid_vector_message(v):
+    with pytest.raises(ValueError, match=r"Expected vector with shape \(3,\)"):
+        pr.mrp_prod_vector([0, 0, 0], v)
+
+
 def test_mrp_quat_conversions():
     rng = np.random.default_rng(22)
 

@@ -51,8 +51,8 @@ class Figure:
     ): ...
     def plot_vector(
         self,
-        start: npt.ArrayLike,
-        direction: npt.ArrayLike,
+        start: npt.ArrayLike = ...,
+        direction: npt.ArrayLike = ...,
         c: npt.ArrayLike = ...,
     ): ...
     def plot_basis(

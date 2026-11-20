@@ -9,7 +9,7 @@ def frechet_mean(
     log: Callable,
     inv: Callable,
     concat_one_to_one: Callable,
-    concat_many_to_one: Callable,
+    concat_one_to_many: Callable,
     n_iter: int = ...,
 ) -> Tuple[np.ndarray, np.ndarray]: ...
 def estimate_gaussian_rotation_matrix_from_samples(
