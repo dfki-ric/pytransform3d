@@ -242,6 +242,7 @@ def test_slerp_weights_antipodal():
 
     sin(pi) is ~1.22e-16 in float64, below machine epsilon, so dividing by
     it without the guard produces weights of ~8e15 instead of values in [0,1].
+    Callers reject antipodal inputs before using these weights.
     """
     for t in (0.0, 0.25, 0.5, 0.75, 1.0):
         w1, w2 = pr.slerp_weights(np.pi, t)
@@ -250,3 +251,31 @@ def test_slerp_weights_antipodal():
         assert abs(w1 + w2 - 1.0) < 1e-14, f"weights do not sum to 1 at t={t}"
         assert 0.0 <= w1 <= 1.0, f"w1 out of [0,1] at t={t}"
         assert 0.0 <= w2 <= 1.0, f"w2 out of [0,1] at t={t}"
+
+
+def test_quaternion_slerp_antipodal_raises_without_shortest_path():
+    """Antipodal inputs have no unique path without shortest_path."""
+    q = np.array([0.5, 0.5, 0.5, 0.5])
+    neg_q = -q
+
+    for t in (0.0, 0.25, 0.5, 0.75, 1.0):
+        with pytest.raises(ValueError, match="antipodal"):
+            pr.quaternion_slerp(q, neg_q, t)
+        with pytest.raises(ValueError, match="antipodal"):
+            pr.rotor_slerp(q, neg_q, t)
+
+
+def test_quaternion_slerp_antipodal_shortest_path():
+    """shortest_path resolves antipodal inputs to unit quaternions."""
+    q = np.array([0.5, 0.5, 0.5, 0.5])
+    neg_q = -q
+
+    for t in (0.0, 0.25, 0.5, 0.75, 1.0):
+        interpolated = pr.quaternion_slerp(q, neg_q, t, shortest_path=True)
+        assert abs(np.linalg.norm(interpolated) - 1.0) < 1e-12
+        rotor = pr.rotor_slerp(q, neg_q, t, shortest_path=True)
+        assert abs(np.linalg.norm(rotor) - 1.0) < 1e-12
+
+    # -end and end describe the same rotation.
+    end_at_t1 = pr.quaternion_slerp(q, neg_q, 1.0, shortest_path=True)
+    assert abs(np.dot(end_at_t1, neg_q)) == pytest.approx(1.0)
