@@ -11,7 +11,6 @@ from ..trajectories import (
     pqs_from_dual_quaternions,
     dual_quaternions_sclerp,
     transforms_from_pqs,
-    concat_dynamic,
     invert_transforms,
 )
 from ..transformations import check_transform
@@ -153,9 +152,9 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
             idxs_timestep_earlier_wrt_query_time = np.clip(
                 idxs_timestep_earlier_wrt_query_time, min_index, max_index
             )
-        elif any(out_of_range):
-            indices = np.where(out_of_range)[0]
-            times = query_time_arr[indices]
+        elif np.any(out_of_range):
+            indices = np.flatnonzero(out_of_range)
+            times = query_time_arr.flat[indices]
             raise ValueError(
                 "Query time at indices %s, time(s): %s is/are out of range of "
                 "time series." % (indices, times)
@@ -348,5 +347,5 @@ class TemporalTransformManager(TransformGraphBase):
         """Convert sequence of node names to rigid transformation."""
         A2B = np.eye(4)
         for from_f, to_f in zip(path[:-1], path[1:]):
-            A2B = concat_dynamic(A2B, self.get_transform(from_f, to_f))
+            A2B = np.matmul(self.get_transform(from_f, to_f), A2B)
         return A2B

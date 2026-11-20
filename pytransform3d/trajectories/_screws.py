@@ -36,6 +36,10 @@ def mirror_screw_axis_direction(Sthetas):
     """
     Sthetas_new = np.empty((len(Sthetas), 6))
     for i, Stheta in enumerate(Sthetas):
+        pure_translation = np.linalg.norm(Stheta[:3]) < np.finfo(float).eps
+        if pure_translation:
+            Sthetas_new[i] = Stheta
+            continue
         S, theta = screw_axis_from_exponential_coordinates(Stheta)
         q, s, h = screw_parameters_from_screw_axis(S)
         s_new = -s
