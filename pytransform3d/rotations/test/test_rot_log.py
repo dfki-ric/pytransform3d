@@ -31,6 +31,14 @@ def test_check_skew_symmetric_matrix():
         pr.check_skew_symmetric_matrix(V, strict_check=False)
         assert len(w) == 1
 
+    V = pr.cross_product_matrix([0.0, 0.0, 3.0])
+    V[0, 1] += 2e-6
+    with pytest.raises(
+        ValueError,
+        match="Expected skew-symmetric matrix, but it failed the test",
+    ):
+        pr.check_skew_symmetric_matrix(V)
+
     pr.check_skew_symmetric_matrix(np.zeros((3, 3)))
 
 

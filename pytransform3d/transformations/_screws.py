@@ -258,7 +258,7 @@ def check_screw_matrix(screw_matrix, tolerance=1e-6, strict_check=True):
     )
 
     if (
-        abs(omega_norm - 1.0) > np.finfo(float).eps
+        abs(omega_norm - 1.0) > tolerance
         and abs(omega_norm) > np.finfo(float).eps
     ):
         raise ValueError(
@@ -267,10 +267,7 @@ def check_screw_matrix(screw_matrix, tolerance=1e-6, strict_check=True):
         )
     if abs(omega_norm) < np.finfo(float).eps:
         v_norm = np.linalg.norm(screw_matrix[:3, 3])
-        if (
-            abs(v_norm - 1.0) > np.finfo(float).eps
-            and abs(v_norm) > np.finfo(float).eps
-        ):
+        if abs(v_norm - 1.0) > tolerance and abs(v_norm) > np.finfo(float).eps:
             raise ValueError(
                 "If the norm of the rotation axis is 0, then the direction "
                 "vector must have norm 1 or 0, but it is %g." % v_norm

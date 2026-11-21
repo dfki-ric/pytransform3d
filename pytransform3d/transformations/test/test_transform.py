@@ -31,6 +31,17 @@ def test_check_transform():
     with pytest.raises(ValueError, match="homogeneous transformation matrix"):
         pt.check_transform(A2B)
 
+    A2B = np.eye(4)
+    A2B[3, 0] = 5e-7
+    pt.check_transform(A2B)
+
+    A2B = np.eye(4)
+    A2B[3, 3] += 2e-6
+    with pytest.raises(ValueError, match="homogeneous transformation matrix"):
+        pt.check_transform(A2B)
+    A2B[0, 0] += 1e-6
+    pt.check_transform(A2B, tolerance=1e-5)
+
     rng = np.random.default_rng(0)
     A2B = pt.random_transform(rng)
     A2B2 = pt.check_transform(A2B)

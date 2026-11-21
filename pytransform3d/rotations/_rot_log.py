@@ -42,7 +42,7 @@ def check_skew_symmetric_matrix(V, tolerance=1e-6, strict_check=True):
             "Expected skew-symmetric matrix with shape (3, 3), "
             "got array-like object with shape %s" % (V.shape,)
         )
-    if not np.allclose(V.T, -V, atol=tolerance):
+    if not np.allclose(V.T, -V, atol=tolerance, rtol=0.0):
         error_msg = (
             "Expected skew-symmetric matrix, but it failed the test "
             "V.T = %r\n-V = %r" % (V.T, -V)

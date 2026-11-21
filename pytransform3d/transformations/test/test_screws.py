@@ -136,6 +136,12 @@ def test_check_screw_matrix():
     screw_matrix = pt.screw_matrix_from_screw_axis(
         np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])
     )
+    screw_matrix[:3, :3] *= 1.0 + 5e-7
+    pt.check_screw_matrix(screw_matrix)
+
+    screw_matrix = pt.screw_matrix_from_screw_axis(
+        np.array([1.0, 0.0, 0.0, 1.0, 0.0, 0.0])
+    )
     screw_matrix[0, 0] = 0.0001
     with pytest.raises(ValueError, match="Expected skew-symmetric matrix"):
         pt.check_screw_matrix(screw_matrix)

@@ -17,7 +17,7 @@ from ..rotations import (
 )
 
 
-def check_transform(A2B, strict_check=True):
+def check_transform(A2B, strict_check=True, tolerance=1e-6):
     """Input validation of transform.
 
     Parameters
@@ -29,6 +29,9 @@ def check_transform(A2B, strict_check=True):
         Raise a ValueError if the transformation matrix is not numerically
         close enough to a real transformation matrix. Otherwise we print a
         warning.
+
+    tolerance : float, optional (default: 1e-6)
+        Tolerance threshold for checks.
 
     Returns
     -------
@@ -46,8 +49,10 @@ def check_transform(A2B, strict_check=True):
             "Expected homogeneous transformation matrix with "
             "shape (4, 4), got array-like object with shape %s" % (A2B.shape,)
         )
-    check_matrix(A2B[:3, :3], strict_check=strict_check)
-    if not np.allclose(A2B[3], np.array([0.0, 0.0, 0.0, 1.0])):
+    check_matrix(A2B[:3, :3], tolerance, strict_check)
+    if not np.allclose(
+        A2B[3], np.array([0.0, 0.0, 0.0, 1.0]), atol=tolerance, rtol=0.0
+    ):
         error_msg = (
             "Expected homogeneous transformation matrix with "
             "[0, 0, 0, 1] at the bottom, got %r" % A2B
