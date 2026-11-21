@@ -12,6 +12,7 @@ from ._temporal_transform_manager import (
     NumpyTimeseriesTransform,
 )
 
+from ._buffered_timeseries_transform import BufferedTimeseriesTransform
 
 __all__ = [
     "TransformGraphBase",
@@ -20,4 +21,5 @@ __all__ = [
     "TimeVaryingTransform",
     "StaticTransform",
     "NumpyTimeseriesTransform",
+    "BufferedTimeseriesTransform",
 ]

@@ -66,3 +66,45 @@ in the plot below:
 .. figure:: ../_auto_examples/plots/images/sphx_glr_plot_interpolation_for_transform_manager_001.png
    :target: ../_auto_examples/plots/plot_interpolation_for_transform_manager.html
    :align: center
+
+
+--------------------------------
+Receiving Transformations Online
+--------------------------------
+
+When samples arrive incrementally, use
+:class:`~pytransform3d.transform_manager.BufferedTimeseriesTransform` instead
+of constructing the entire time series in advance. Register the history once;
+the manager sees new samples as they are appended:
+
+.. code-block:: python
+
+    from pytransform3d.transform_manager import (
+        BufferedTimeseriesTransform, TemporalTransformManager,
+    )
+
+    history = BufferedTimeseriesTransform(max_samples=100)
+    manager = TemporalTransformManager()
+    manager.add_transform("sensor", "world", history)
+
+    history.append(0.0, [0, 0, 0, 1, 0, 0, 0])
+    history.append(1.0, [1, 0, 0, 1, 0, 0, 0])
+    sensor_to_world = manager.get_transform_at_time("sensor", "world", 0.5)
+
+Timestamps must be finite and strictly increasing. Poses use the position and
+quaternion format ``(x, y, z, qw, qx, qy, qz)``. Inputs are copied and
+quaternions are normalized when appended. Invalid samples leave the history
+unchanged.
+
+Once ``max_samples`` is reached, appending discards the oldest sample. Queries
+outside the retained interval raise ``ValueError`` unless ``time_clipping=True``
+was requested. With clipping enabled, they return the closest retained endpoint.
+An empty history cannot be queried. A single sample can be queried at its own
+timestamp, or at any time with clipping. Use ``max_samples=1`` with clipping to
+retain only the latest pose. ``clear()`` discards all samples and allows a new
+timestamp sequence, for example after restarting a sensor clock.
+
+Appending takes constant time. The first query after a change builds a NumPy
+snapshot of the retained samples, which takes linear time in the history size;
+subsequent queries reuse it. The history uses the existing ScLERP interpolation
+and adds no dependencies. Concurrent access must be synchronized by the caller.
