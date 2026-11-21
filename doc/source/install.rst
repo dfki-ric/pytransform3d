@@ -24,10 +24,13 @@ Optional Dependencies
 When using pip, you can install pytransform3d with the options all, doc, and
 test.
 
-* `all` will add support for loading meshes, the 3D visualizer of
-  pytransform3d, and pydot export of `TransformManager` objects.
-* `doc` will install necessary dependencies to build this documentation.
-* `test` will install dependencies to run the unit tests.
+* ``all`` will add support for loading meshes, the Open3D and viser 3D
+  visualizers, and pydot export of ``TransformManager`` objects.
+* ``doc`` will install the dependencies needed to build this documentation,
+  including the viser gallery examples. After installing, also run
+  ``playwright install chromium`` to download the headless browser used to
+  render viser screenshots.
+* ``test`` will install dependencies to run the unit tests.
 
 For example, you can call
 
@@ -59,7 +62,7 @@ Install the package with:
 
 .. code-block:: bash
 
-    python setup.py install
+    pip install -e .
 
 pip also supports installation from a git repository:
 
