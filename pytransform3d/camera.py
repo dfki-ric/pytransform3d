@@ -123,6 +123,7 @@ def cam2sensor(P_cam, focal_length, kappa=0.0):
     ValueError
         If input is not valid
     """
+    P_cam = np.asarray(P_cam)
     n_points, n_dims = P_cam.shape
     if n_dims not in (3, 4):
         raise ValueError(
