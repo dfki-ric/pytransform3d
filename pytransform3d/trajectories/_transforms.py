@@ -28,6 +28,8 @@ def invert_transforms(A2Bs):
         Invert one transformation.
     """
     A2Bs = np.asarray(A2Bs)
+    if A2Bs.dtype.kind in "biu":
+        A2Bs = A2Bs.astype(float)
     instances_shape = A2Bs.shape[:-2]
     B2As = np.empty_like(A2Bs)
     # ( R t )^-1   ( R^T -R^T*t )
