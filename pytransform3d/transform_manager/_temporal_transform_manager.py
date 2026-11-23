@@ -97,7 +97,7 @@ class NumpyTimeseriesTransform(TimeVaryingTransform):
 
     def __init__(self, time, pqs, time_clipping=False):
         self.time = np.asarray(time)
-        self._pqs = np.asarray(pqs)
+        self._pqs = np.array(pqs, dtype=float)
         self.time_clipping = time_clipping
 
         if len(self._pqs.shape) != 2:

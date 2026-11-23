@@ -217,6 +217,34 @@ def test_numpy_timeseries_transform_wrong_input_shapes():
         NumpyTimeseriesTransform(time, pqs)
 
 
+def test_numpy_timeseries_transform_does_not_modify_input():
+    time = np.array([0.0, 1.0])
+    pqs = np.array(
+        [
+            [0.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0],
+            [1.0, 0.0, 0.0, 2.0, 0.0, 0.0, 0.0],
+        ]
+    )
+    pqs_before = pqs.copy()
+
+    tm = TemporalTransformManager()
+    tm.add_transform("A", "B", NumpyTimeseriesTransform(time, pqs))
+
+    assert_array_almost_equal(pqs, pqs_before)
+
+
+def test_numpy_timeseries_transform_integer_input():
+    time = [0, 1]
+    pqs = [[0, 0, 0, 1, 1, 0, 0], [1, 0, 0, 1, 1, 0, 0]]
+    transform = NumpyTimeseriesTransform(time, pqs).check_transforms()
+
+    A2B = transform.as_matrix(0.0)
+    assert_array_almost_equal(
+        A2B,
+        pt.transform_from_pq([0.0, 0.0, 0.0, np.sqrt(0.5), np.sqrt(0.5), 0, 0]),
+    )
+
+
 def test_numpy_timeseries_transform_multiple_query_times():
     # create entities A and B together with their transformations from world
     duration = 10.0  # [s]
