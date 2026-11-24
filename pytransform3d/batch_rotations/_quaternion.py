@@ -213,6 +213,7 @@ def axis_angles_from_quaternions(qs):
         Axis of rotation and rotation angle: (x, y, z, angle). The angle is
         constrained to [0, pi) so that the mapping is unique.
     """
+    qs = np.asarray(qs)
     quaternion_vector_part = qs[..., 1:]
     qvec_norm = np.linalg.norm(quaternion_vector_part, axis=-1)
 
@@ -228,7 +229,7 @@ def axis_angles_from_quaternions(qs):
     # arctan2 gives more numerically correct results near 0 and pi
     angles = 2.0 * np.arctan2(qvec_norm[non_zero_mask], qs[non_zero_mask, 0])
 
-    result = np.empty_like(qs)
+    result = np.empty_like(qs, dtype=np.result_type(qs.dtype, qvec_norm.dtype))
     result[non_zero_mask] = norm_axis_angles(
         np.concatenate((axes, angles[..., np.newaxis]), axis=-1)
     )
