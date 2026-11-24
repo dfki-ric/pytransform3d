@@ -104,6 +104,8 @@ def cross_product_matrices(V):
         Cross-product matrices of V
     """
     V = np.asarray(V)
+    if V.dtype.kind in "biu":
+        V = V.astype(float)
 
     instances_shape = V.shape[:-1]
     V_matrices = np.empty(instances_shape + (3, 3))
