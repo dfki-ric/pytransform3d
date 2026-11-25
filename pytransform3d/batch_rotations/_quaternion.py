@@ -38,6 +38,8 @@ def smooth_quaternion_trajectory(Q, start_component_positive="x"):
         If Q has length 0.
     """
     Q = np.copy(Q)
+    if Q.dtype.kind in "biu":
+        Q = Q.astype(float)
 
     if len(Q) == 0:
         raise ValueError("At least one quaternion is expected.")
