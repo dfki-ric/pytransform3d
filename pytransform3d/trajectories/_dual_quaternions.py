@@ -122,6 +122,11 @@ def batch_dq_prod_vector(dqs, V):
         3d vectors
     """
     dqs = np.asarray(dqs)
+    V = np.asarray(V)
+    dtype = np.result_type(dqs.dtype, V.dtype)
+    if dtype.kind in "biu":
+        dtype = np.dtype(float)
+    dqs = dqs.astype(dtype, copy=False)
 
     v_dqs = np.empty_like(dqs)
     v_dqs[..., 0] = 1.0
