@@ -42,6 +42,28 @@ def test_norm_vectors_zero():
     assert_array_almost_equal(V_unit, V)
 
 
+@pytest.mark.parametrize("dtype", [np.float32, np.float64])
+def test_norm_vectors_at_float_limits(dtype):
+    limits = np.finfo(dtype)
+    V = np.array(
+        [
+            [limits.max, -limits.max, 0],
+            [0, limits.tiny, limits.tiny],
+            [0, 0, 0],
+        ],
+        dtype=dtype,
+    )
+    expected = np.array([[1, -1, 0], [0, 1, 1], [0, 0, 0]]) / np.sqrt(2)
+
+    with np.errstate(over="raise", divide="raise", invalid="raise"):
+        V_unit = pbr.norm_vectors(V)
+        assert V_unit.dtype == dtype
+        assert_array_almost_equal(V_unit, expected)
+        assert pbr.norm_vectors(V, out=V) is V
+
+    assert_array_almost_equal(V, expected)
+
+
 @pytest.mark.parametrize(
     "dtype", [bool, np.int8, np.uint8, np.int64, np.uint64]
 )

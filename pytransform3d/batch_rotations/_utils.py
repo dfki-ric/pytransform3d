@@ -20,14 +20,36 @@ def norm_vectors(V, out=None):
         nd unit vectors with norm 1 or zero vectors
     """
     V = np.asarray(V)
-    norms = np.linalg.norm(V, axis=-1)
+    corrected = None
+    if np.issubdtype(V.dtype, np.floating):
+        # Keep the direct norm for ordinary vectors. If its sum of squares
+        # overflows or becomes subnormal, normalize that row in scaled units.
+        with np.errstate(over="ignore", under="ignore"):
+            norms = np.linalg.norm(V, axis=-1)
+        tiny = np.sqrt(np.finfo(V.dtype).tiny)
+        unstable = (norms < tiny) | np.isinf(norms)
+        if np.any(unstable):
+            affected = V[unstable]
+            scale = np.max(
+                np.abs(affected), axis=-1, keepdims=True, initial=0.0
+            )
+            scaled = affected / np.where(
+                (scale > 0.0) & np.isfinite(scale), scale, 1.0
+            )
+            with np.errstate(over="ignore", under="ignore"):
+                corrected_norms = np.linalg.norm(scaled, axis=-1, keepdims=True)
+            corrected = scaled / np.where(
+                corrected_norms == 0.0, 1.0, corrected_norms
+            )
+        denominators = np.where(norms == 0.0, 1.0, norms)
+    else:
+        norms = np.linalg.norm(V, axis=-1)
+        denominators = np.maximum(norms, np.finfo(float).tiny)
     if out is None:
-        # Integer inputs require floating-point output; retain floating dtypes.
         out = np.empty_like(V, dtype=np.result_type(V.dtype, norms.dtype))
-    # Avoid division by zero with np.maximum(..., smallest positive float).
-    # The norm is zero only when the vector is zero so this case does not
-    # require further processing.
-    out[...] = V / np.maximum(norms[..., np.newaxis], np.finfo(float).tiny)
+    out[...] = V / denominators[..., np.newaxis]
+    if corrected is not None:
+        out[unstable] = corrected
     return out
 
 
