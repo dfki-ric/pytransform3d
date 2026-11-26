@@ -165,6 +165,9 @@ def sensor2img(P_sensor, sensor_size, image_size, image_center=None):
     P_img : array-like, shape (n_points, 2)
         Points on image
     """
+    P_sensor = np.asarray(P_sensor)
+    if P_sensor.dtype.kind in "biu":
+        P_sensor = P_sensor.astype(float)
     P_img = np.asarray(image_size) * P_sensor / np.asarray(sensor_size)
     if image_center is None:
         image_center = np.asarray(image_size) / 2
