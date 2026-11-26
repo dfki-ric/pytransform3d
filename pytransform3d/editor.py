@@ -244,7 +244,7 @@ if qt_available:
         transform_manager : TransformManager
             All nodes that are reachable from the base frame will be editable
 
-        frame : string
+        base_frame : string
             Name of the base frame
 
         xlim : tuple, optional (-1, 1)
