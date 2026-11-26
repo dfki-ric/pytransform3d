@@ -184,6 +184,8 @@ def quaternion_slerp_batch(start, end, t, shortest_path=False):
     Q : array, shape (n_steps, 4)
         Interpolated unit quaternions
     """
+    start = np.asarray(start)
+    end = np.asarray(end)
     t = np.asarray(t)
     if shortest_path:
         end = pick_closest_quaternion(end, start)
