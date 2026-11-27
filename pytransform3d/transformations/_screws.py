@@ -368,7 +368,7 @@ def norm_exponential_coordinates(Stheta):
     return screw_axis * theta_normed
 
 
-def assert_exponential_coordinates_equal(Stheta1, Stheta2):
+def assert_exponential_coordinates_equal(Stheta1, Stheta2, *args, **kwargs):
     """Raise an assertion if exp. coordinates are not approximately equal.
 
     Parameters
@@ -395,7 +395,7 @@ def assert_exponential_coordinates_equal(Stheta1, Stheta2):
     """
     Stheta1 = norm_exponential_coordinates(Stheta1)
     Stheta2 = norm_exponential_coordinates(Stheta2)
-    assert_array_almost_equal(Stheta1, Stheta2)
+    assert_array_almost_equal(Stheta1, Stheta2, *args, **kwargs)
 
 
 def assert_screw_parameters_equal(
