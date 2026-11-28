@@ -103,3 +103,30 @@ def test_integer_inputs():
         pc.cylindrical_from_spherical([1, 1, 0]),
         pc.cylindrical_from_spherical([1.0, 1.0, 0.0]),
     )
+
+
+def test_cylindrical_radius_across_scales():
+    scales = np.array([1e-200, 1.0, 1e200])
+    points = scales[:, np.newaxis] * [3.0, 4.0, 12.0]
+    cylindrical = pc.cylindrical_from_cartesian(points)
+    np.testing.assert_allclose(cylindrical[:, 0] / scales, 5.0)
+    np.testing.assert_allclose(cylindrical[:, 1], np.arctan2(4.0, 3.0))
+    np.testing.assert_allclose(cylindrical[:, 2] / scales, 12.0)
+
+
+def test_spherical_from_cartesian_across_scales():
+    scales = np.array([1e-200, 1.0, 1e200])
+    points = scales[:, np.newaxis] * [3.0, 4.0, 12.0]
+    spherical = pc.spherical_from_cartesian(points)
+    np.testing.assert_allclose(spherical[:, 0] / scales, 13.0)
+    np.testing.assert_allclose(spherical[:, 1], np.arctan2(5.0, 12.0))
+    np.testing.assert_allclose(spherical[:, 2], np.arctan2(4.0, 3.0))
+
+
+def test_spherical_from_cylindrical_across_scales():
+    scales = np.array([1e-200, 1.0, 1e200])
+    points = np.column_stack((5.0 * scales, np.full(3, 0.6), 12.0 * scales))
+    spherical = pc.spherical_from_cylindrical(points)
+    np.testing.assert_allclose(spherical[:, 0] / scales, 13.0)
+    np.testing.assert_allclose(spherical[:, 1], np.arctan2(5.0, 12.0))
+    np.testing.assert_allclose(spherical[:, 2], 0.6)
