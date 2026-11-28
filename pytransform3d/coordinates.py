@@ -64,7 +64,7 @@ def cylindrical_from_cartesian(p):
     """
     p = np.asarray(p, dtype=float)
     q = np.empty_like(p)
-    q[..., 0] = np.linalg.norm(p[..., :2], axis=-1)
+    q[..., 0] = np.hypot(p[..., 0], p[..., 1])
     q[..., 1] = np.arctan2(p[..., 1], p[..., 0])
     q[..., 2] = p[..., 2]
     return q
@@ -109,8 +109,9 @@ def spherical_from_cartesian(p):
     """
     p = np.asarray(p, dtype=float)
     q = np.empty_like(p)
-    q[..., 0] = np.linalg.norm(p, axis=-1)
-    q[..., 1] = np.arctan2(np.linalg.norm(p[..., :2], axis=-1), p[..., 2])
+    rho = np.hypot(p[..., 0], p[..., 1])
+    q[..., 0] = np.hypot(rho, p[..., 2])
+    q[..., 1] = np.arctan2(rho, p[..., 2])
     q[..., 2] = np.arctan2(p[..., 1], p[..., 0])
     return q
 
@@ -132,7 +133,7 @@ def spherical_from_cylindrical(p):
     """
     p = np.asarray(p, dtype=float)
     q = np.empty_like(p)
-    q[..., 0] = np.linalg.norm(p[..., (0, 2)], axis=-1)
+    q[..., 0] = np.hypot(p[..., 0], p[..., 2])
     q[..., 1] = np.arctan2(p[..., 0], p[..., 2])
     q[..., 2] = p[..., 1]
     return q
